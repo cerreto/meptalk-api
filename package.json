@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/model-european-parliament/meptalk-api/issues"
   },
-  "homepage": "https://github.com/model-european-parliament/meptalk-api#readme"
+  "homepage": "https://github.com/model-european-parliament/meptalk-api#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0"
+  }
 }
