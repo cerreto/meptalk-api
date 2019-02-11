@@ -1,5 +1,6 @@
 const express = require("express")
 const app = new express
+const mysql = require("mysql")
 const bodyparser = require("body-parser")
 const path = require("path")
 const jwt = require("jsonwebtoken")
@@ -102,7 +103,7 @@ app.post("/api/add", authmiddleware, ({ body }, res) => { // it is body.IDE not 
       }
       res.json(result)
   })
-}
+})
 
 app.post("/api/rm", authmiddleware, ({ body }, res) => { // it is body.IDE not ID
   console.log(body)
@@ -127,7 +128,7 @@ app.post("/api/rm", authmiddleware, ({ body }, res) => { // it is body.IDE not I
       }
       res.json(result)
   })
-}
+})
 
 app.options("*", (req, res) => {
   res.sendStatus(200)
