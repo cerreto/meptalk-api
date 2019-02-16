@@ -4,6 +4,7 @@ const mysql = require("mysql")
 const bodyparser = require("body-parser")
 const path = require("path")
 const jwt = require("jsonwebtoken")
+const sha256 = require("sha256")
 
 const config = require("./dbconfig.json")
 const secrets = require("./secret.json")
@@ -38,7 +39,7 @@ const authmiddleware = (req, res, next) => {
 }
 
 app.post("/login", ({ body: { user, password } }, res) => {
-  if (user == nickname && password == pass) {
+  if (user == nickname && password == sha256(pass)) {
     const token = jwt.sign({
       user,
       admin: true
