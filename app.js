@@ -92,7 +92,7 @@ app.get("/api/schools", ({ body }, res) => {
 })
 
 app.get("/api/committees", ({ body }, res) => {
-  pool.query("SELECT id, number FROM committees;", (err, result) => {
+  pool.query("SELECT id, num FROM committees;", (err, result) => {
     if(err) {
       console.error(err)
       return res.status(500).json({ "error": true })
