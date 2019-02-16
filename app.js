@@ -38,6 +38,10 @@ const authmiddleware = (req, res, next) => {
   })
 }
 
+app.options("*", (req, res) => {
+  res.sendStatus(200)
+})
+
 app.post("/login", ({ body: { user, password } }, res) => {
   if (user == nickname && sha256(password) == pass) {
     const token = jwt.sign({
@@ -149,10 +153,6 @@ app.post("/api/rm", authmiddleware, ({ body }, res) => { // it is body.IDE not I
       }
       res.json(result)
   })
-})
-
-app.options("*", (req, res) => {
-  res.sendStatus(200)
 })
 
 app.all("*", (req, res) => {
