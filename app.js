@@ -39,7 +39,7 @@ const authmiddleware = (req, res, next) => {
 }
 
 app.post("/login", ({ body: { user, password } }, res) => {
-  if (user == nickname && password == sha256(pass)) {
+  if (user == nickname && sha256(password) == pass) {
     const token = jwt.sign({
       user,
       admin: true
