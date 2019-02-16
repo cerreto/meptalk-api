@@ -11,7 +11,7 @@ const secrets = require("./secret.json")
 
 const nickname = secrets.user
 const pass = secrets.password
-const secret = secrets.secret
+const shh = secrets.secret
 
 const pool = mysql.createPool({
   connectionLimit: 10,
@@ -29,7 +29,7 @@ app.use("*", (req, res, next) => {
 
 const authmiddleware = (req, res, next) => {
   const token = req.get("authorization")
-  jwt.verify(token, secret, (err, data) => {
+  jwt.verify(token, shh, (err, data) => {
     if (err) {
       res.status(403).json({ message: err.message })
     } else {
@@ -43,11 +43,11 @@ app.post("/login", ({ body: { user, password } }, res) => {
     const token = jwt.sign({
       user,
       admin: true
-    }, secret, { algorithm: "HS512" })
+    }, shh, { algorithm: "HS512" })
 
     res.json({ token })
   } else {
-    res.status(401).json({ message: "wrong username or password"})
+    res.status(401).json({ message: "wrong username or password" })
   }
 })
 
