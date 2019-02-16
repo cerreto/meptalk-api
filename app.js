@@ -81,7 +81,7 @@ app.post("/api/delegates-but-comm", authmiddleware, ({ body }, res) => {
   })
 })
 
-app.post("/api/schools", ({ body }, res) => {
+app.get("/api/schools", ({ body }, res) => {
   connection.query("SELECT id, name FROM schools;", (err, result) => {
     if(err) {
       console.error(err)
@@ -91,7 +91,7 @@ app.post("/api/schools", ({ body }, res) => {
   })
 })
 
-app.post("/api/committees", ({ body }, res) => {
+app.get("/api/committees", ({ body }, res) => {
   connection.query("SELECT id, number FROM committees;", (err, result) => {
     if(err) {
       console.error(err)
