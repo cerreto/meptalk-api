@@ -52,7 +52,7 @@ app.post("/login", ({ body: { user, password } }, res) => {
 })
 
 app.post("/api/delegates", authmiddleware, ({ body }, res) => {
-  connection.query("SELECT delegates.id, delegates.name, delegates.committee, delegates.school, delegates.speeches FROM delegates INNER JOIN schools ON delegates.school = schools.id ORDER BY schools.speeches ASC, delegates.speeches ASC LIMIT=50;", (err, result) => {
+  connection.query("SELECT delegates.id, delegates.name, delegates.committee, delegates.school, delegates.speeches FROM delegates INNER JOIN schools ON delegates.school = schools.id ORDER BY schools.speeches ASC, delegates.speeches ASC;", (err, result) => {
     if(err) {
       console.error(err)
       return res.status(500).json({ "error": true })
@@ -62,7 +62,7 @@ app.post("/api/delegates", authmiddleware, ({ body }, res) => {
 })
 
 app.post("/api/delegates-only-comm", authmiddleware, ({ body }, res) => {
-  connection.query(`SELECT delegates.id, delegates.name, delegates.committee, delegates.school, delegates.speeches FROM delegates INNER JOIN schools ON delegates.school = schools.id ORDER BY schools.speeches ASC, delegates.speeches ASC WHERE delegates.committee = ${pool.escape(body.committee)} LIMIT=50;`, (err, result) => {
+  connection.query(`SELECT delegates.id, delegates.name, delegates.committee, delegates.school, delegates.speeches FROM delegates INNER JOIN schools ON delegates.school = schools.id ORDER BY schools.speeches ASC, delegates.speeches ASC WHERE delegates.committee = ${pool.escape(body.committee)};`, (err, result) => {
     if(err) {
       console.error(err)
       return res.status(500).json({ "error": true })
@@ -72,7 +72,27 @@ app.post("/api/delegates-only-comm", authmiddleware, ({ body }, res) => {
 })
 
 app.post("/api/delegates-but-comm", authmiddleware, ({ body }, res) => {
-  connection.query(`SELECT delegates.id, delegates.name, delegates.committee, delegates.school, delegates.speeches FROM delegates INNER JOIN schools ON delegates.school = schools.id ORDER BY schools.speeches ASC, delegates.speeches ASC WHERE delegates.committee != ${pool.escape(body.committee)} LIMIT=50;`, (err, result) => {
+  connection.query(`SELECT delegates.id, delegates.name, delegates.committee, delegates.school, delegates.speeches FROM delegates INNER JOIN schools ON delegates.school = schools.id ORDER BY schools.speeches ASC, delegates.speeches ASC WHERE delegates.committee != ${pool.escape(body.committee)};`, (err, result) => {
+    if(err) {
+      console.error(err)
+      return res.status(500).json({ "error": true })
+    }
+    res.json(result)
+  })
+})
+
+app.post("/api/schools", ({ body }, res) => {
+  connection.query("SELECT id, name FROM schools;", (err, result) => {
+    if(err) {
+      console.error(err)
+      return res.status(500).json({ "error": true })
+    }
+    res.json(result)
+  })
+})
+
+app.post("/api/committees", ({ body }, res) => {
+  connection.query("SELECT id, number FROM committees;", (err, result) => {
     if(err) {
       console.error(err)
       return res.status(500).json({ "error": true })
