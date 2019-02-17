@@ -20,6 +20,10 @@ const pool = mysql.createPool({
 })
 
 app.use(bodyparser.json())
+app.options("*", (req, res) => {
+  res.sendStatus(200)
+})
+
 app.all("*", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS")
@@ -37,10 +41,6 @@ const authmiddleware = (req, res, next) => {
     }
   })
 }
-
-app.options("*", (req, res) => {
-  res.sendStatus(200)
-})
 
 app.post("/login", ({ body: { user, password } }, res) => {
   if (user == nickname && sha256(password) == pass) {
