@@ -22,15 +22,15 @@ const pool = mysql.createPool({
 
 app.use(bodyparser.json())
 app.options("*", cors())
-app.options("*", (req, res) => {
-  res.sendStatus(200)
-})
-
 app.all("*", (req, res, next) => {
+  console.log("cheeeck")
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS")
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With")
   next()
+})
+app.options("*", (req, res) => {
+  res.sendStatus(200)
 })
 
 const authmiddleware = (req, res, next) => {
