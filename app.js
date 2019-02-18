@@ -53,7 +53,7 @@ app.post("/login", ({ body: { user, password } }, res) => {
       admin: true
     }, secret, { algorithm: "HS512" })
 
-    //res.json({ token })
+    res.send({ token })
   } else {
     res.status(401).json({ message: "wrong username or password" })
   }
@@ -65,7 +65,7 @@ app.post("/api/delegates", authmiddleware, ({ body }, res) => {
       console.error(err)
       return res.status(500).json({ "error": true })
     }
-    //res.json(result)
+    res.send(result)
   })
 })
 
@@ -75,7 +75,7 @@ app.post("/api/delegates-only-comm", authmiddleware, ({ body }, res) => {
       console.error(err)
       return res.status(500).json({ "error": true })
     }
-    //res.json(result)
+    res.send(result)
   })
 })
 
@@ -85,7 +85,7 @@ app.post("/api/delegates-but-comm", authmiddleware, ({ body }, res) => {
       console.error(err)
       return res.status(500).json({ "error": true })
     }
-    //res.json(result)
+    res.send(result)
   })
 })
 
@@ -95,7 +95,7 @@ app.get("/api/schools", ({ body }, res) => {
       console.error(err)
       return res.status(500).json({ "error": true })
     }
-    //res.json(result)
+    res.send(result)
   })
 })
 
@@ -105,7 +105,7 @@ app.get("/api/committees", ({ body }, res) => {
       console.error(err)
       return res.status(500).json({ "error": true })
     }
-    //res.json(result)
+    res.send(result)
   })
 })
 
@@ -116,21 +116,21 @@ app.post("/api/add", authmiddleware, ({ body }, res) => { // it is body.IDE not 
         console.error(err)
         return res.status(500).json({"error":true})
       }
-      //res.json(result)
+      res.send(result)
   })
   pool.query(`UPDATE committees SET speeches = speeches + 1 WHERE id = ${pool.escape(body.committee)};`, (err, result) => {
     if(err) {
         console.error(err)
         return res.status(500).json({"error":true})
       }
-      //res.json(result)
+      res.send(result)
   })
   pool.query(`UPDATE schools SET speeches = speeches + 1 WHERE id = ${pool.escape(body.school)};`, (err, result) => {
     if(err) {
         console.error(err)
         return res.status(500).json({"error":true})
       }
-      //res.json(result)
+      res.send(result)
   })
 })
 
@@ -141,21 +141,21 @@ app.post("/api/rm", authmiddleware, ({ body }, res) => { // it is body.IDE not I
         console.error(err)
         return res.status(500).json({ "error": true })
       }
-      //res.json(result)
+      res.send(result)
   })
   pool.query(`UPDATE committees SET speeches = speeches - 1 WHERE id = ${pool.escape(body.committee)};`, (err, result) => {
     if(err) {
         console.error(err)
         return res.status(500).json({ "error": true })
       }
-      //res.json(result)
+      res.send(result)
   })
   pool.query(`UPDATE schools SET speeches = speeches - 1 WHERE id = ${pool.escape(body.school)};`, (err, result) => {
     if(err) {
         console.error(err)
         return res.status(500).json({ "error": true })
       }
-      //res.json(result)
+      res.send(result)
   })
 })
 
