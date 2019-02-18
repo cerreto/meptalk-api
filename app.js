@@ -31,6 +31,7 @@ app.all("*", (req, res, next) => {
 })
 app.use(cors())
 app.options("*", (req, res) => {
+  console.log("cheeeque")
   res.sendStatus(200)
 })
 
