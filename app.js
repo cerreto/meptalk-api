@@ -21,11 +21,11 @@ const pool = mysql.createPool({
 })
 
 app.use(bodyparser.json())
+app.options("*", cors())
 app.options("*", (req, res) => {
   res.sendStatus(200)
 })
 
-app.options("*", cors())
 app.all("*", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS")
