@@ -21,6 +21,7 @@ const pool = mysql.createPool({
 })
 
 app.use(bodyparser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.options("*", cors())
 app.all("*", (req, res, next) => {
   console.log("cheeeck")
@@ -114,21 +115,21 @@ app.post("/api/add", authmiddleware, ({ body }, res) => { // it is body.IDE not 
   pool.query(`UPDATE delegates SET speeches = speeches + 1 WHERE id = ${pool.escape(body.ide)};`, (err, result) => {
     if(err) {
         console.error(err)
-        return res.status(500).json({"error":true})
+        return res.status(500).json({ "error": true })
       }
       res.send(result)
   })
   pool.query(`UPDATE committees SET speeches = speeches + 1 WHERE id = ${pool.escape(body.committee)};`, (err, result) => {
     if(err) {
         console.error(err)
-        return res.status(500).json({"error":true})
+        return res.status(500).json({ "error": true })
       }
       res.send(result)
   })
   pool.query(`UPDATE schools SET speeches = speeches + 1 WHERE id = ${pool.escape(body.school)};`, (err, result) => {
     if(err) {
         console.error(err)
-        return res.status(500).json({"error":true})
+        return res.status(500).json({ "error": true })
       }
       res.send(result)
   })
