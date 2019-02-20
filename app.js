@@ -21,7 +21,7 @@ const pool = mysql.createPool({
 })
 
 app.use(bodyparser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyparser.urlencoded({ extended: true }))
 app.options("*", cors())
 app.all("*", (req, res, next) => {
   console.log("cheeeck")
