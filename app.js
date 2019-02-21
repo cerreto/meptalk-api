@@ -1,6 +1,5 @@
 const express = require("express")
 const app = new express
-const cors = require("cors")
 const mysql = require("mysql")
 const bodyparser = require("body-parser")
 const path = require("path")
