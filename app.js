@@ -22,7 +22,6 @@ const pool = mysql.createPool({
 
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({ extended: true }))
-app.options("*", cors())
 app.all("*", (req, res, next) => {
   console.log("cheeeck")
   res.header("Access-Control-Allow-Origin", "*")
@@ -30,7 +29,6 @@ app.all("*", (req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With")
   next()
 })
-app.use(cors())
 app.options("*", (req, res) => {
   console.log("cheeeque")
   res.sendStatus(200)
