@@ -58,7 +58,7 @@ app.post("/login", ({ body: { user, password } }, res) => {
 })
 
 app.post("/api/delegates", authmiddleware, ({ body }, res) => {
-  pool.query("SELECT delegates.id, delegates.name, delegates.committee, delegates.school, delegates.speeches FROM delegates INNER JOIN schools ON delegates.school = schools.id ORDER BY schools.speeches ASC, delegates.speeches ASC;", (err, result) => {
+  pool.query("SELECT delegates.id, delegates.name, delegates.committee, schools.name, delegates.speeches FROM delegates INNER JOIN schools ON delegates.school = schools.id ORDER BY schools.speeches ASC, delegates.speeches ASC;", (err, result) => {
     if(err) {
       console.error(err)
       return res.status(500).json({ "error": true })
@@ -68,7 +68,7 @@ app.post("/api/delegates", authmiddleware, ({ body }, res) => {
 })
 
 app.post("/api/delegates-only-comm", authmiddleware, ({ body }, res) => {
-  pool.query(`SELECT delegates.id, delegates.name, delegates.committee, delegates.school, delegates.speeches FROM delegates INNER JOIN schools ON delegates.school = schools.id ORDER BY schools.speeches ASC, delegates.speeches ASC WHERE delegates.committee = ${pool.escape(body.committee)};`, (err, result) => {
+  pool.query(`SELECT delegates.id, delegates.name, delegates.committee, schools.name, delegates.speeches FROM delegates INNER JOIN schools ON delegates.school = schools.id ORDER BY schools.speeches ASC, delegates.speeches ASC WHERE delegates.committee = ${pool.escape(body.committee)};`, (err, result) => {
     if(err) {
       console.error(err)
       return res.status(500).json({ "error": true })
@@ -78,7 +78,7 @@ app.post("/api/delegates-only-comm", authmiddleware, ({ body }, res) => {
 })
 
 app.post("/api/delegates-but-comm", authmiddleware, ({ body }, res) => {
-  pool.query(`SELECT delegates.id, delegates.name, delegates.committee, delegates.school, delegates.speeches FROM delegates INNER JOIN schools ON delegates.school = schools.id ORDER BY schools.speeches ASC, delegates.speeches ASC WHERE delegates.committee != ${pool.escape(body.committee)};`, (err, result) => {
+  pool.query(`SELECT delegates.id, delegates.name, delegates.committee, schools.name, delegates.speeches FROM delegates INNER JOIN schools ON delegates.school = schools.id ORDER BY schools.speeches ASC, delegates.speeches ASC WHERE delegates.committee != ${pool.escape(body.committee)};`, (err, result) => {
     if(err) {
       console.error(err)
       return res.status(500).json({ "error": true })
@@ -114,21 +114,19 @@ app.post("/api/add", authmiddleware, ({ body }, res) => { // it is body.IDE not 
         console.error(err)
         return res.status(500).json({ "error": true })
       }
-      res.send(result)
-  })
-  pool.query(`UPDATE committees SET speeches = speeches + 1 WHERE id = ${pool.escape(body.committee)};`, (err, result) => {
-    if(err) {
-        console.error(err)
-        return res.status(500).json({ "error": true })
-      }
-      res.send(result)
-  })
-  pool.query(`UPDATE schools SET speeches = speeches + 1 WHERE id = ${pool.escape(body.school)};`, (err, result) => {
-    if(err) {
-        console.error(err)
-        return res.status(500).json({ "error": true })
-      }
-      res.send(result)
+      pool.query(`UPDATE committees SET speeches = speeches + 1 WHERE id = ${pool.escape(body.committee)};`, (err, result) => {
+        if(err) {
+            console.error(err)
+            return res.status(500).json({ "error": true })
+          }
+            pool.query(`UPDATE schools SET speeches = speeches + 1 WHERE id = ${pool.escape(body.school)};`, (err, result) => {
+              if(err) {
+                  console.error(err)
+                  return res.status(500).json({ "error": true })
+                }
+                res.send(result)
+            })
+      })
   })
 })
 
@@ -139,21 +137,19 @@ app.post("/api/rm", authmiddleware, ({ body }, res) => { // it is body.IDE not I
         console.error(err)
         return res.status(500).json({ "error": true })
       }
-      res.send(result)
-  })
-  pool.query(`UPDATE committees SET speeches = speeches - 1 WHERE id = ${pool.escape(body.committee)};`, (err, result) => {
-    if(err) {
-        console.error(err)
-        return res.status(500).json({ "error": true })
-      }
-      res.send(result)
-  })
-  pool.query(`UPDATE schools SET speeches = speeches - 1 WHERE id = ${pool.escape(body.school)};`, (err, result) => {
-    if(err) {
-        console.error(err)
-        return res.status(500).json({ "error": true })
-      }
-      res.send(result)
+      pool.query(`UPDATE committees SET speeches = speeches - 1 WHERE id = ${pool.escape(body.committee)};`, (err, result) => {
+        if(err) {
+            console.error(err)
+            return res.status(500).json({ "error": true })
+          }
+            pool.query(`UPDATE schools SET speeches = speeches - 1 WHERE id = ${pool.escape(body.school)};`, (err, result) => {
+              if(err) {
+                  console.error(err)
+                  return res.status(500).json({ "error": true })
+                }
+                res.send(result)
+            })
+      })
   })
 })
 
